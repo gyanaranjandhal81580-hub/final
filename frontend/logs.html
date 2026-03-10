@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FoodiePro Logs</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body style="background:#020617; color:#f9fafb;">
+    <section
+      style="
+        min-height: 100vh;
+        padding: 32px 6vw 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 18px;
+        "
+      >
+        <div>
+          <h2 style="font-size: 24px; letter-spacing: 0.03em;">FoodiePro Logs</h2>
+          <p style="font-size: 13px; color: #9ca3af;">
+            Read-only view of orders and users stored in your browser (demo data).
+          </p>
+        </div>
+        <a
+          href="index.html"
+          style="
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.45);
+            font-size: 13px;
+            color: #f97316;
+            text-decoration: none;
+            background: rgba(15,23,42,0.8);
+          "
+          >⟵ Back to app</a
+        >
+      </div>
+
+      <div
+        class="cart-layout"
+        style="
+          display: grid;
+          grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+          gap: 18px;
+        "
+      >
+        <div class="cart-panel-box">
+          <h3>Orders Log</h3>
+          <div id="logsOrders" style="max-height: 420px; overflow-y: auto;"></div>
+        </div>
+
+        <div class="right-stack">
+          <div class="cart-panel-box">
+            <h3>Users Log</h3>
+            <div id="logsUsers"></div>
+          </div>
+          <div class="cart-panel-box">
+            <h3>Stats</h3>
+            <div id="logsStats" style="font-size: 13px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">F</div>
+          <div>
+            <strong>FoodiePro</strong>
+            <small>© <span id="year"></span> FoodiePro Limited</small>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="index.html">Main App</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>Bangalore</div>
+      </div>
+    </footer>
+
+    <script src="logs.js"></script>
+  </body>
+</html>

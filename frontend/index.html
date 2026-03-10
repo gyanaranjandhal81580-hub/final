@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FoodiePro Startup</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+   <link rel="stylesheet" href="/css/style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- SPLASH -->
+    <div id="splash">
+      <h1>FoodiePro 🚀</h1>
+      <p>Beautiful food ordering experience, just for you.</p>
+    </div>
+
+    <!-- ROLE SELECT -->
+    <section id="roleSelect">
+      <h2>Welcome to FoodiePro</h2>
+      <p>
+        Choose how you want to experience the platform. Admins can see
+        everything, users see only allowed content.
+      </p>
+      <div class="role-buttons">
+        <button class="role-btn" onclick="selectRole('user')">
+          <span class="icon">👤</span> User Login
+        </button>
+        <button class="role-btn" onclick="selectRole('admin')">
+          <span class="icon">🛡</span> Admin Login
+        </button>
+      </div>
+    </section>
+
+    <!-- LOGIN PAGE -->
+    <section id="loginPage">
+      <div class="login-box">
+        <div class="login-header">
+          <div class="login-logo">
+            <div class="login-logo-circle">F</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 600">FoodiePro</div>
+              <small>Fast • Beautiful • Secure</small>
+            </div>
+          </div>
+          <button class="back-link-sm" onclick="goBack()">⟵ Back</button>
+        </div>
+
+        <h2 id="loginTitle">Login</h2>
+        <p class="login-sub">
+          Admin sees full website, User sees only allowed sections.
+        </p>
+
+        <input type="text" id="email" placeholder="Email" />
+
+        <div class="password-field">
+          <input type="password" id="password" placeholder="Password" />
+          <button
+            type="button"
+            class="toggle-pass-icon"
+            onclick="togglePassword()"
+            aria-label="Show or hide password"
+            title="Show / Hide password"
+          >
+            👁
+          </button>
+        </div>
+
+        <div class="forgot">Forgot Password?</div>
+
+        <button
+          class="btn-primary"
+          style="width: 100%; margin-top: 10px"
+          onclick="login()"
+        >
+          Login
+        </button>
+        <button class="google-btn">
+          <span>🔐</span> Sign in with Google
+        </button>
+
+        <div class="login-footer-note">
+          Password for User must contain capital, small letter and number.
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN APP -->
+    <div id="app">
+      <nav>
+        <div class="nav-top">
+          <div class="nav-left">
+            <div class="logo">
+              <div class="logo-mark">F</div>
+              <div class="logo-text">
+                <strong>FoodiePro</strong>
+                <span id="brandTagline">Bangalore • Premium Delivery</span>
+              </div>
+            </div>
+
+            <!-- Current location beside FoodiePro -->
+            <button class="location-pill" onclick="getLocation()">
+              📍
+              <span id="navLocationLabel">Use current location</span>
+              <small id="navCoords" class="hidden"></small>
+            </button>
+          </div>
+
+          <button class="nav-cart-btn" onclick="openCartPage()">
+            🛒 Cart <span id="cartCount">(0)</span>
+          </button>
+        </div>
+
+        <!-- Move badges under navbar -->
+        <div class="nav-badges">
+          <span class="hero-tag">⭐ 4.9 Rated</span>
+          <span class="hero-tag">🛵 Under 30 mins</span>
+          <span class="hero-tag">🍽️ 20+ curated restaurants</span>
+        </div>
+      </nav>
+
+      <!-- ADMIN PANEL -->
+      <section id="adminDashboard" class="hidden admin-shell">
+        <div
+          class="admin-overlay"
+          id="adminOverlay"
+          onclick="closeAdminSidebar()"
+        ></div>
+
+        <aside
+          class="admin-sidebar"
+          id="adminSidebar"
+          aria-label="Admin sidebar"
+        >
+          <div class="admin-brand">
+            <div class="admin-brand-mark">F</div>
+            <div>
+              <div class="admin-brand-title">FoodiePro</div>
+              <div class="admin-brand-sub">Modern Admin Dashboard</div>
+            </div>
+          </div>
+
+          <div
+            class="admin-nav"
+            role="navigation"
+            aria-label="Admin navigation"
+          >
+            <button
+              class="admin-nav-btn is-active"
+              data-admin-tab="overview"
+              onclick="showAdminTab('overview', this)"
+              type="button"
+            >
+              <span class="admin-nav-icon">🏠</span> Dashboard
+            </button>
+            <button
+              class="admin-nav-btn"
+              data-admin-tab="restaurants"
+              onclick="showAdminTab('restaurants', this)"
+              type="button"
+            >
+              <span class="admin-nav-icon">🍽️</span> Restaurants
+            </button>
+            <button
+              class="admin-nav-btn"
+              data-admin-tab="orders"
+              onclick="showAdminTab('orders', this)"
+              type="button"
+            >
+              <span class="admin-nav-icon">🧾</span> Orders
+            </button>
+            <button
+              class="admin-nav-btn"
+              data-admin-tab="users"
+              onclick="showAdminTab('users', this)"
+              type="button"
+            >
+              <span class="admin-nav-icon">👥</span> Users
+            </button>
+            <button
+              class="admin-nav-btn"
+              data-admin-tab="anomalies"
+              onclick="showAdminTab('anomalies', this)"
+              type="button"
+            >
+              <span class="admin-nav-icon">⚠️</span> Anomalies
+            </button>
+          </div>
+
+          <button class="admin-logout" onclick="logout()" type="button">
+            Logout
+          </button>
+        </aside>
+
+        <main class="admin-main">
+          <div class="admin-topbar">
+            <button
+              class="admin-sidebar-toggle"
+              type="button"
+              onclick="toggleAdminSidebar()"
+              aria-label="Toggle menu"
+            >
+              ☰
+            </button>
+
+            <div class="admin-search" role="search">
+              <span>🔎</span>
+              <input id="adminSearch" placeholder="Search here..." />
+            </div>
+
+            <div class="admin-profile">
+              <div class="admin-chip">Admin</div>
+              <div class="admin-avatar" title="Admin">A</div>
+            </div>
+          </div>
+
+          <div id="adminContent" class="admin-content">
+            <div id="admin-overview">
+              <div class="admin-page-head">
+                <div>
+                  <h2>Dashboard</h2>
+                  <p>Live overview of your platform activity.</p>
+                </div>
+              </div>
+
+              <div class="admin-stats">
+                <div class="admin-stat-card">
+                  <div class="admin-stat-label">Total Orders</div>
+                  <div class="admin-stat-value" id="totalOrders">0</div>
+                </div>
+                <div class="admin-stat-card">
+                  <div class="admin-stat-label">Total Customers</div>
+                  <div class="admin-stat-value" id="totalUsers">0</div>
+                </div>
+                <div class="admin-stat-card">
+                  <div class="admin-stat-label">Total Revenue</div>
+                  <div class="admin-stat-value">
+                    ₹<span id="totalRevenue">0</span>
+                  </div>
+                </div>
+                <div class="admin-stat-card">
+                  <div class="admin-stat-label">Total Restaurants</div>
+                  <div class="admin-stat-value" id="totalRestaurants">0</div>
+                </div>
+              </div>
+
+              <div class="admin-panels">
+                <div class="admin-panel">
+                  <div class="admin-panel-head">
+                    <h3>Orders Analytics</h3>
+                    <span class="admin-chip">This week</span>
+                  </div>
+                  <div class="admin-panel-body">
+                    <canvas id="ordersChart" height="110"></canvas>
+                  </div>
+                </div>
+
+                <div class="admin-panel">
+                  <div class="admin-panel-head">
+                    <h3>Quick Insights</h3>
+                    <span class="admin-chip">Today</span>
+                  </div>
+                  <div class="admin-panel-body">
+                    <div class="admin-kpi">
+                      <div class="admin-kpi-row">
+                        <span>Total Dishes</span>
+                        <strong id="totalDishes">0</strong>
+                      </div>
+                      <div class="admin-kpi-row">
+                        <span>Active Deliveries</span>
+                        <strong id="activeDeliveries">0</strong>
+                      </div>
+                      <div class="admin-kpi-row">
+                        <span>Average Rating</span>
+                        <strong>4.9</strong>
+                      </div>
+                      <div class="admin-kpi-row">
+                        <span>Avg Delivery</span>
+                        <strong>~28m</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="admin-restaurants" class="hidden">
+              <div class="admin-page-head">
+                <div>
+                  <h2>Restaurants</h2>
+                  <p>Add and manage restaurants.</p>
+                </div>
+              </div>
+
+              <div class="admin-inputs">
+                <input
+                  class="admin-input"
+                  id="newResName"
+                  placeholder="Restaurant Name"
+                />
+                <input
+                  class="admin-input"
+                  id="newResType"
+                  placeholder="veg / nonveg"
+                />
+                <input
+                  class="admin-input"
+                  id="newResDelivery"
+                  placeholder="Delivery Time (mins)"
+                />
+                <input
+                  class="admin-input"
+                  id="newResImg"
+                  placeholder="Image URL (optional)"
+                />
+              </div>
+              <button
+                class="admin-action"
+                onclick="addRestaurant()"
+                type="button"
+              >
+                ＋ Add Restaurant
+              </button>
+
+              <div
+                id="adminRestaurantList"
+                class="admin-list"
+                style="margin-top: 12px"
+              ></div>
+            </div>
+
+            <div id="admin-orders" class="hidden">
+              <div class="admin-page-head">
+                <div>
+                  <h2>Orders</h2>
+                  <p>Track and update order status.</p>
+                </div>
+              </div>
+              <div id="orderList" class="admin-list"></div>
+            </div>
+
+            <div id="admin-users" class="hidden">
+              <div class="admin-page-head">
+                <div>
+                  <h2>Users</h2>
+                  <p>Manage registered users.</p>
+                </div>
+              </div>
+              <div id="userList" class="admin-list"></div>
+            </div>
+            <div id="admin-anomalies" class="hidden">
+              <div class="admin-page-head">
+                <div>
+                  <h2>Anomalies</h2>
+                  <p>Suspicious activity patterns detected from orders and users.</p>
+                </div>
+                <div>
+                  <a
+                    href="logs.html"
+                    class="admin-action"
+                    style="text-decoration: none;"
+                  >
+                    View raw logs
+                  </a>
+                </div>
+              </div>
+
+              <div id="anomalySummary" class="admin-stats"></div>
+              <div
+                id="anomalyList"
+                class="admin-list"
+                style="margin-top: 12px"
+              ></div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Restaurant edit modal -->
+        <div
+          class="admin-modal-overlay hidden"
+          id="restaurantModal"
+          aria-hidden="true"
+          onclick="if (event.target === this) { closeRestaurantEditor(); }"
+        >
+          <div
+            class="admin-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="restaurantModalTitle"
+          >
+            <div class="admin-modal-head">
+              <h3 id="restaurantModalTitle">Edit restaurant</h3>
+              <button
+                class="admin-modal-close"
+                type="button"
+                onclick="closeRestaurantEditor()"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="admin-modal-body">
+              <div class="admin-modal-section">
+                <h4>Restaurant details</h4>
+                <p class="admin-modal-sub" id="editResMeta"></p>
+                <div class="admin-inputs admin-inputs--modal">
+                  <div>
+                    <label>Restaurant</label>
+                    <div
+                      class="admin-modal-name"
+                      id="editResNameLabel"
+                    ></div>
+                  </div>
+                  <div>
+                    <label>Type</label>
+                    <input
+                      class="admin-input"
+                      id="editResType"
+                      placeholder="veg / nonveg"
+                    />
+                  </div>
+                  <div>
+                    <label>Delivery (mins)</label>
+                    <input
+                      class="admin-input"
+                      id="editResDelivery"
+                      placeholder="e.g. 30"
+                    />
+                  </div>
+                  <div>
+                    <label>Status</label>
+                    <select class="admin-input" id="editResStatus">
+                      <option value="open">Open</option>
+                      <option value="closed">Closed</option>
+                    </select>
+                  </div>
+                </div>
+                <button
+                  class="admin-action"
+                  type="button"
+                  onclick="saveRestaurantDetails()"
+                  style="margin-top: 6px"
+                >
+                  Save details
+                </button>
+              </div>
+
+              <div class="admin-modal-section">
+                <h4>Dishes</h4>
+                <p class="admin-modal-sub">
+                  Add dishes for this restaurant. These will also be counted in
+                  dashboard stats.
+                </p>
+                <div
+                  id="restaurantDishesList"
+                  class="admin-dish-list"
+                ></div>
+
+                <div class="admin-dish-add" style="margin-top: 6px">
+                  <input
+                    class="admin-input"
+                    id="newDishName"
+                    placeholder="Dish name (e.g. Paneer Tikka)"
+                  />
+                  <input
+                    class="admin-input"
+                    id="newDishPrice"
+                    placeholder="Price (₹)"
+                    type="number"
+                    min="1"
+                  />
+                  <input
+                    class="admin-input"
+                    id="newDishImg"
+                    placeholder="Image URL (optional)"
+                  />
+                </div>
+                <button
+                  class="admin-action"
+                  type="button"
+                  onclick="addDishToRestaurant()"
+                  style="margin-top: 8px"
+                >
+                  ＋ Add dish
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAIN LANDING -->
+      <section class="hero" id="appMain">
+        <div class="hero-inner">
+          <h1>
+            Order the <span>best food</span> in Bangalore.
+          </h1>
+          <p>“People who love to eat are always the best people.”</p>
+
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="openPopup()">
+              Explore Restaurants
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- POPUP: RESTAURANTS -->
+      <div class="popup" id="popup">
+        <div class="popup-content">
+          <div class="popup-header">
+            <div class="popup-title">Explore Restaurants</div>
+            <button class="close" onclick="closePopup()">✖</button>
+          </div>
+
+          <div class="controls">
+            <input
+              type="text"
+              id="search"
+              placeholder="Search restaurant..."
+              onkeyup="applyFilters()"
+            />
+            <select id="sort" onchange="applyFilters()">
+              <option value="">Sort by Rating</option>
+              <option value="high">High to Low</option>
+              <option value="low">Low to High</option>
+            </select>
+            <button onclick="filterType('all')">All</button>
+            <button onclick="filterType('veg')">Veg</button>
+            <button onclick="filterType('nonveg')">Non-Veg</button>
+          </div>
+
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+
+      <!-- CART + PAYMENT PAGE (items left, details+payment right) -->
+      <section id="cartPage">
+        <div class="cart-page-header">
+          <h2>Your Cart & Payment</h2>
+          <button class="back-link-main" onclick="closeCartPage()">
+            ⟵ Back to restaurants
+          </button>
+        </div>
+
+        <div class="cart-layout">
+          <!-- LEFT: Cart items -->
+          <div class="cart-panel-box">
+            <h3>Order Summary</h3>
+            <div id="cartItems"></div>
+
+            <div style="margin-top: 10px">
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <strong>₹<span id="cartSubtotal">0</span></strong>
+              </div>
+              <div class="summary-row">
+                <span>Discount</span>
+                <strong style="color: #22c55e"
+                  >-₹<span id="cartDiscount">0</span></strong
+                >
+              </div>
+              <div
+                class="summary-row"
+                style="margin-top: 4px; font-size: 14px"
+              >
+                <span>Total to pay</span>
+                <strong>₹<span id="cartTotal">0</span></strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Delivery details + Coupons & payment -->
+          <div class="right-stack">
+            <div class="cart-panel-box">
+              <h3>Delivery Details</h3>
+              <input
+                id="userName"
+                placeholder="Full Name"
+                style="
+                  width: 100%;
+                  margin: 4px 0;
+                  padding: 8px 10px;
+                  border-radius: 999px;
+                  border: 1px solid #1f2937;
+                  background: #020617;
+                  color: #e5e7eb;
+                  font-size: 12px;
+                  outline: none;
+                "
+              />
+              <input
+                id="userEmail"
+                placeholder="Email"
+                style="
+                  width: 100%;
+                  margin: 4px 0;
+                  padding: 8px 10px;
+                  border-radius: 999px;
+                  border: 1px solid #1f2937;
+                  background: #020617;
+                  color: #e5e7eb;
+                  font-size: 12px;
+                  outline: none;
+                "
+              />
+              <input
+                id="userPhone"
+                placeholder="Phone (10 digits)"
+                style="
+                  width: 100%;
+                  margin: 4px 0;
+                  padding: 8px 10px;
+                  border-radius: 999px;
+                  border: 1px solid #1f2937;
+                  background: #020617;
+                  color: #e5e7eb;
+                  font-size: 12px;
+                  outline: none;
+                "
+              />
+              <textarea
+                id="userAddress"
+                placeholder="Complete Address"
+                style="
+                  width: 100%;
+                  margin: 4px 0;
+                  padding: 8px 10px;
+                  border-radius: 12px;
+                  border: 1px solid #1f2937;
+                  background: #020617;
+                  color: #e5e7eb;
+                  font-size: 12px;
+                  min-height: 74px;
+                  outline: none;
+                "
+              ></textarea>
+            </div>
+
+            <div class="cart-panel-box">
+              <h3>Coupons & Payment</h3>
+
+              <div class="coupon-box">
+                <label
+                  for="couponSelect"
+                  style="display: block; margin-bottom: 4px"
+                  >Coupon 🎁</label
+                >
+                <select
+                  id="couponSelect"
+                  onchange="onCouponChange()"
+                  style="
+                    width: 100%;
+                    padding: 8px 10px;
+                    border-radius: 999px;
+                    border: 1px solid #1f2937;
+                    background: #020617;
+                    color: #e5e7eb;
+                    font-size: 12px;
+                    outline: none;
+                  "
+                >
+                  <option value="">No coupon</option>
+                  <option value="SAVE50">SAVE50 - Flat ₹50 OFF (≥₹299)</option>
+                  <option value="FOODIE20">FOODIE20 - 20% OFF up to ₹100</option>
+                  <option value="MEGA100">MEGA100 - Flat ₹100 OFF (≥₹499)</option>
+                  <option value="NEWUSER">NEWUSER - Extra ₹75 OFF</option>
+                </select>
+              </div>
+
+              <h3 style="margin-top: 16px">Payment Method</h3>
+              <div class="payment-options">
+                <div
+                  class="pay-card active"
+                  onclick="selectPayment('UPI', this)"
+                >
+                  <span>📱</span>
+                  <div>
+                    <b>UPI</b>
+                    <p>Pay using GPay, PhonePe, Paytm</p>
+                  </div>
+                </div>
+                <div class="pay-card" onclick="selectPayment('Card', this)">
+                  <span>💳</span>
+                  <div>
+                    <b>Credit / Debit Card</b>
+                    <p>Visa, RuPay, SBI, HDFC, MasterCard</p>
+                  </div>
+                </div>
+                <div class="pay-card" onclick="selectPayment('COD', this)">
+                  <span>💵</span>
+                  <div>
+                    <b>Cash on Delivery</b>
+                    <p>Pay when your food arrives</p>
+                  </div>
+                </div>
+              </div>
+
+              <div id="cardDetails" class="card-details hidden">
+                <label for="cardType">Card Type</label>
+                <select id="cardType">
+                  <option value="">Select Card</option>
+                  <option value="RUPAY">RuPay</option>
+                  <option value="SBI">SBI</option>
+                  <option value="HDFC">HDFC</option>
+                  <option value="MASTERCARD">MasterCard</option>
+                  <option value="VISA">VISA</option>
+                </select>
+
+                <label for="cardHolder">Card Holder Name</label>
+                <input id="cardHolder" type="text" placeholder="Name on card" />
+
+                <label>Expiry Date (DD / MM / YYYY)</label>
+                <div class="card-details-row">
+                  <input
+                    id="cardDay"
+                    type="number"
+                    min="1"
+                    max="31"
+                    placeholder="DD"
+                  />
+                  <input
+                    id="cardMonth"
+                    type="number"
+                    min="1"
+                    max="12"
+                    placeholder="MM"
+                  />
+                  <input
+                    id="cardYear"
+                    type="number"
+                    min="2024"
+                    max="2100"
+                    placeholder="YYYY"
+                  />
+                </div>
+
+                <label for="cardCvv">CVV (3 digits)</label>
+                <input
+                  id="cardCvv"
+                  type="password"
+                  maxlength="3"
+                  placeholder="*"
+                />
+              </div>
+
+              <button class="btn-primary pay-btn" onclick="checkout()">
+                Pay ₹<span id="payAmount">0</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-inner">
+          <div class="footer-logo">
+            <div class="footer-logo-mark">F</div>
+            <div>
+              <strong>FoodiePro</strong>
+              <small>© <span id="year"></span> FoodiePro Limited</small>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Company</h4>
+            <button type="button" data-footer-modal="about">About Us</button>
+          </div>
+
+          <div class="footer-col">
+            <h4>Support</h4>
+            <button type="button" data-footer-modal="support">
+              Help & Support
+            </button>
+            <button type="button" data-footer-modal="contact">
+              Contact Us
+            </button>
+          </div>
+
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <button type="button" data-footer-modal="terms">
+              Terms & Conditions
+            </button>
+            <button type="button" data-footer-modal="privacy">
+              Privacy Policy
+            </button>
+          </div>
+
+          <div class="footer-col">
+            <h4>Social Links</h4>
+            <div class="social-row">
+              <button
+                class="social-btn"
+                title="LinkedIn"
+                onclick="return false;"
+              >
+                in
+              </button>
+
+              <button
+                class="social-btn"
+                title="Facebook"
+                onclick="return false;"
+              >
+                f
+              </button>
+              <button
+                class="social-btn"
+                title="Twitter"
+                onclick="return false;"
+              >
+                𝕏
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>Bangalore</div>
+        </div>
+      </footer>
+
+      <!-- Footer click modal -->
+      <div class="footer-modal" id="footerModal" aria-hidden="true">
+        <div
+          class="footer-modal-card"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="footerModalTitle"
+        >
+          <div class="footer-modal-head">
+            <h3 id="footerModalTitle">Info</h3>
+            <button
+              class="footer-modal-close"
+              type="button"
+              id="footerModalClose"
+              aria-label="Close"
+            >
+              ✕
+            </button>
+          </div>
+          <div class="footer-modal-body" id="footerModalBody"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+
+  </body>
+
+</html>
