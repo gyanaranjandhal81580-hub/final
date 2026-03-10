@@ -1,5 +1,5 @@
 // ─── Backend integration ──────────────────────────────────────────────────────
-const API_BASE = "http://168.144.26.68";
+const API_BASE = "https://foodiepro-backend.onrender.com";
 
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, {
