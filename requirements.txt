@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pymongo[srv]
+passlib[bcrypt]
+python-multipart
+python-dotenv
+dnspython
+razorpay
+pydantic[email]
+email-validator
