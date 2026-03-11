@@ -1,5 +1,5 @@
 // ─── Backend integration ──────────────────────────────────────────────────────
-const API_BASE = "http://168.144.26.68:8080";
+const API_BASE = "http://168.144.26.68";
 
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, {
