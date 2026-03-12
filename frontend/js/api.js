@@ -176,6 +176,12 @@ function loadCart() {
 
 // Splash + init
 window.onload = function () {
+  // Initialize Google Sign In
+  google.accounts.id.initialize({
+    client_id: "917600023405-n1e79qvime9cfsug0kog9vo8o1lb3gk4.apps.googleusercontent.com",
+    callback: handleCredentialResponse
+  });
+
   const yearEl = document.getElementById("year");
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
@@ -198,7 +204,6 @@ window.onload = function () {
     }
   } catch {}
 };
-
 // Role / login
 function selectRole(role) {
   selectedRole = role;
