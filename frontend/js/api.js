@@ -1,5 +1,43 @@
 // ─── Backend integration ──────────────────────────────────────────────────────
 const API_BASE = "https://foodiepro.duckdns.org";
+
+// Handle Google OAuth redirect token
+(function handleGoogleRedirect() {
+  const hash = window.location.hash;
+  if (hash && hash.includes("access_token")) {
+    const params = new URLSearchParams(hash.substring(1));
+    const accessToken = params.get("access_token");
+    if (accessToken) {
+      fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      .then(res => res.json())
+      .then(userInfo => {
+        const email = userInfo.email;
+        console.log("Google user:", email);
+        apiFetch("/register", {
+          method: "POST",
+          body: JSON.stringify({ email, password: accessToken.substring(0, 20), role: "user" }),
+        }).catch(() => {});
+        apiFetch("/login", {
+          method: "POST",
+          body: JSON.stringify({ email, password: accessToken.substring(0, 20), role: "user" }),
+        }).then(() => {
+          if (!users.find((u) => u.email === email)) {
+            users.push({ email });
+            localStorage.setItem("users", JSON.stringify(users));
+          }
+          history.replaceState(null, null, window.location.pathname);
+          enterApp();
+        }).catch(() => {
+          history.replaceState(null, null, window.location.pathname);
+          enterApp();
+        });
+      });
+    }
+  }
+})();
+
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, {
     headers: { "Content-Type": "application/json" },
@@ -1774,4 +1812,3 @@ function triggerGoogleLogin() {
     googleInitialized = true;
   }
   google.accounts.id.prompt();
-}
