@@ -1764,10 +1764,14 @@ function handleCredentialResponse(response) {
     enterApp();
   });
 }
+let googleInitialized = false;
 function triggerGoogleLogin() {
-  google.accounts.id.initialize({
-    client_id: "917600023405-n1e79qvime9cfsug0kog9vo8o1lb3gk4.apps.googleusercontent.com",
-    callback: handleCredentialResponse
-  });
+  if (!googleInitialized) {
+    google.accounts.id.initialize({
+      client_id: "917600023405-n1e79qvime9cfsug0kog9vo8o1lb3gk4.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+    });
+    googleInitialized = true;
+  }
   google.accounts.id.prompt();
 }
