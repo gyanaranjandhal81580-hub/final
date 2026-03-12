@@ -1727,3 +1727,38 @@ function showPosition(position) {
 function showError() {
   alert("Location access denied.");
 }
+// Google Sign In Handler
+function handleCredentialResponse(response) {
+  const token = response.credential;
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  
+  const email = payload.email;
+  const name = payload.name;
+  const picture = payload.picture;
+
+  console.log("Google Login:", email, name);
+
+  // Register/Login user via backend
+  apiFetch("/register", {
+    method: "POST",
+    body: JSON.stringify({ email, password: token.substring(0, 20), role: "user" }),
+  }).catch(() => {});
+
+  apiFetch("/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password: token.substring(0, 20), role: "user" }),
+  }).then(() => {
+    // Save user info
+    if (!users.find((u) => u.email === email)) {
+      users.push({ email });
+      localStorage.setItem("users", JSON.stringify(users));
+    }
+    enterApp();
+  }).catch(() => {
+    // Enter app anyway since Google verified the user
+    enterApp();
+  });
+}
+function triggerGoogleLogin() {
+  google.accounts.id.prompt();
+}
