@@ -10,7 +10,14 @@ MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
 DB_NAME   = os.getenv("DB_NAME",   "foodiepro")
 
 try:
-    client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=3000)
+    client = MongoClient(
+        MONGO_URL,
+        serverSelectionTimeoutMS=30000,
+        connectTimeoutMS=30000,
+        socketTimeoutMS=30000,
+        tls=True,
+        tlsAllowInvalidCertificates=True
+    )
     # Force a real connection check
     client.admin.command("ping")
     print(f"✅ MongoDB connected — {MONGO_URL} / {DB_NAME}")
