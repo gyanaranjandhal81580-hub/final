@@ -3,6 +3,9 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from dotenv import load_dotenv
 
+print("🚀 Connecting to MongoDB...")
+print("MONGO_URL USED:", MONGO_URL)
+
 load_dotenv()
 
 # Fallback to localhost if .env is missing or incomplete

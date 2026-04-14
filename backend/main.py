@@ -43,7 +43,13 @@ def home():
 
 @app.post("/register")
 def register(data: RegisterData):
+    print("🔥 REGISTER HIT:", data.email)
     return register_user(data)
+
+@app.get("/test-db")
+def test_db():
+    users_col.insert_one({"email": "deploy@test.com"})
+    return {"status": "inserted"}
 
 @app.post("/login")
 def login(data: LoginData, request: Request):
