@@ -1,5 +1,5 @@
 // ─── Backend integration ──────────────────────────────────────────────────────
-const API_BASE = "https://foodiepro.duckdns.org";
+const API_BASE = "https://foodiepro.duckdns.org/api";
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, {
     headers: { "Content-Type": "application/json" },
