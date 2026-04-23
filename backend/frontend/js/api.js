@@ -1,5 +1,5 @@
 // ─── Backend integration ──────────────────────────────────────────────────────
-const API_BASE = "https://foodiepro-backend.onrender.com";
+const API_BASE = "https://foodiepro.duckdns.org";
 
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, {
