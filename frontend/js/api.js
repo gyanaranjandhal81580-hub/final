@@ -1,5 +1,5 @@
 // ─── Backend integration ──────────────────────────────────────────────────────
-const API_BASE = "https://foodiepro.duckdns.org";
+const API_BASE = "http://168.144.26.68:8000";
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, {
     headers: { "Content-Type": "application/json" },
